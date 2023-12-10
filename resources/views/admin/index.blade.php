@@ -31,6 +31,10 @@
         <form action="{{ route('registerAdmin') }}">
             <button>Add Admin</button>
         </form>
+
+        <form action="{{ route('admin.users') }}">
+            <button>Users</button>
+        </form>
     </div>
     <br>
     <div class="table-container">

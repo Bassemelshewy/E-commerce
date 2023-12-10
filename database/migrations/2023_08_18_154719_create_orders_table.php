@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->float('price')->default(0);
-            $table->integer('quantity')->default(1);
-
+            $table->string('order_number');
+            $table->decimal('total_amount', 10, 2);
+            $table->text('shipping_address');
+            $table->enum('status', ['pending', 'processing', 'shipped', 'delivered'])->default('pending');
+            $table->date('order_date');
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('product_id')->constrained();
             $table->timestamps();
         });
     }

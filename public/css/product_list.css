@@ -42,6 +42,8 @@ td img {
 .container-nav {
     background-color: rgb(31, 41, 55);
     padding: 15px;
+    margin: 20px;
+    border-radius: 10px;
 }
 
 .container-nav .content-nav {
@@ -52,8 +54,30 @@ td img {
 }
 
 .content-nav .search-form{
-    display: flex;
     align-items: center;
+    display: flex;
+}
+
+/* .search-form{
+    display: inline-flex !important;
+    position: absolute;
+    top: 70px;
+    right: 200px;
+    border-radius: 5px;
+} */
+
+.search-form{
+    position: absolute;
+    top: 70px;
+    right: 20px;
+}
+
+.input-style{
+    color: black;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 .content-nav h2 {
@@ -69,7 +93,7 @@ td img {
 }
 
 button,
-button[type="submit"],
+/* button[type="submit"], */
 .button-style
 {
     padding: 10px 20px;
@@ -78,7 +102,7 @@ button[type="submit"],
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 5px;
+    margin-left: 5px;
 }
 
 .btn-delete{
@@ -91,13 +115,31 @@ button[type="submit"],
     cursor: not-allowed;
 }
 
-input[type="text"]{
-    color: black;
+/* input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
     margin-bottom: 10px;
+} */
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+textarea,
+select{
+    color: black;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    /* margin-bottom: 10px; */
 }
 
 .product-listing {
@@ -126,11 +168,23 @@ input[type="text"]{
     transform: translateY(-5px);
 }
 
+/* .product-image img {
+    max-width: 100%;
+    height: auto;
+} */
+.product-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Set your desired fixed height here */
+    /* Ensure the image does not overflow the container */
+    overflow: hidden;
+}
+
 .product-image img {
     max-width: 100%;
     height: auto;
 }
-
 .product-details h3 {
     margin: 10px 0;
 }
@@ -142,3 +196,77 @@ input[type="text"]{
     margin-top: 50px;
 }
 
+/* form {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgb(31, 41, 55);
+    border-radius: 10px;
+} */
+
+
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+label {
+    white-space: nowrap;
+    margin-right: 30px;
+    width: 40%;
+}
+
+.error-message {
+    color: #dc3545;
+    padding: 5px;
+}
+
+.disabled {
+    color: white;
+}
+
+.readonly{
+    background-color: rgb(35, 46, 67);
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.form-columns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-column {
+    flex: 0 0 calc(50% - 20px);
+    width: 50%;
+}
+
+
+.list {
+    list-style: none;
+    padding: 0;
+}
+
+.list li {
+    display: inline;
+    margin-right: 50px;
+}
+
+.list li::before {
+    content: "• "; /* Add a bullet symbol before each list item */
+}

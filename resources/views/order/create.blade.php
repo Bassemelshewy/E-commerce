@@ -11,7 +11,7 @@
 
 <body>
     <h2>Make Order</h2>
-    <form action="{{route('order.store')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('order.addToOrder', $product->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('POST')
 
@@ -42,7 +42,7 @@
             <div class="error-message">{{ $message }}</div>
         @enderror
 
-        <button type="submit">Make Order</button>
+        <button type="submit">Add To Order</button>
     </form>
 
 
@@ -62,7 +62,7 @@
             totalPriceInput.value = '';
         }
         });
-        
+
     </script>
 </body>
 </html>

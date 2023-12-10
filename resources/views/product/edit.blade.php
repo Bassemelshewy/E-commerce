@@ -15,6 +15,12 @@
         @csrf
         @method('PUT')
 
+        <input type="hidden" name="id" value="{{$product->id}}">
+
+        <div class="form-row">
+            <img src="{{ asset('uploads/' . $product->product_image) }}" alt="Product Image" width="200">
+        </div>
+
         <div class="form-row">
             <label for="product_name">Category Name</label>
             <input type="text" name="product_name" value="{{$product->product_name}}">

@@ -40,6 +40,11 @@ Route::middleware( ['auth', 'authadmin'] )->group( function () {
     Route::delete('/product/destroy/{id}',[ProductController::class, 'destroy']
     )->name('product.destroy');
 
+    Route::get('/users',[ProfileController::class, 'index']
+    )->name('admin.users');
+    Route::delete('/users/delete/{id}',[ProfileController::class, 'destroyUser']
+    )->name('admin.destroy');
+
 } );
 
 ////////////////////////////////////////////////////////////////
@@ -47,10 +52,17 @@ Route::middleware( ['auth', 'authadmin'] )->group( function () {
 Route:: middleware(['auth', 'verified', 'notauthadmin'])->group(function () {
     Route::get('/home',[CategoryController::class, 'index'])->name('category.index');
     Route::get('/home/show/{id}',[CategoryController::class, 'show'])->name('category.show');
+
+
     Route::get('/order/create/{id}',[OrderController::class, 'create'])->name('order.create');
     Route::post('/order/store',[OrderController::class, 'store'])->name('order.store');
-    Route::get('/order/show',[OrderController::class, 'show'])->name('order.show');
     Route::get('/order/destroy/{id}',[OrderController::class, 'destroy'])->name('order.delete');
+
+
+    Route::post('/order/add-to-order/{id}',[OrderController::class, 'addToOrder'])->name('order.addToOrder');
+    Route::get('/order/show-order',[OrderController::class, 'showOrderSummary'])->name('order.showOrderSummary');
+    Route::get('/order/remove-from-order/{id}',[OrderController::class, 'removeFromOrder'])->name('order.removeFromOrder');
+    Route::get('/orders',[OrderController::class, 'show'])->name('order.show');
 });
 
 Route::middleware('auth')->group(function () {

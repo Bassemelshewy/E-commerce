@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -31,33 +34,18 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      */
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $validated = $request->validate([
-            'product_name'=>'required|string|min:3|max:100',
-            'product_price'=>'required',
-            'product_availability'=>'required',
-            'product_image'=>['required', 'image']
-        ]);
-
         $category_id = $request->input('category_id');
-        // $product = Product::create(array_merge($validated, ['category_id' => $category_id]));
-        // dd($request->all());
-        $product = Product::create($request->all());
 
-        if ($request->hasFile('product_image')) {
-            $image = $request->file('product_image');
-            $image_name = time() . '.' . $image->getClientOriginalExtension();
-            $image->move('uploads/', $image_name);
+        $image_name = upload_image('', $request->file('product_image'));
+        DB::beginTransaction();
 
-            $product->update([
-                'product_image' => $image_name
-            ]);
-        }
+        Product::create(['product_image' => $image_name] + $request->except(['_token', '_method', 'product_image']));
 
+        DB::commit();
         return redirect()->route('admin.show', ['admin' => $category_id]);
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -76,27 +64,25 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update($id, Request $request)
+    public function update($id, ProductRequest $request)
     {
-        $validated = $request->validate([
-            'product_name'=>'required|string|min:3|max:100',
-            'product_price'=>'required',
-            'product_availability'=>'required',
-            'product_image'=>'required|image'
-        ]);
         $product = Product::find($id);
 
-        $product->update($request->all());
-
+        DB::beginTransaction();
         if ($request->hasFile('product_image')) {
-            $image = $request->file('product_image');
-            $image_name = time() . '.' . $image->getClientOriginalExtension();
-            $image->move('uploads/', $image_name);
+            //remove old image from uploads folder
+            $image = public_path('uploads'.DIRECTORY_SEPARATOR .$product->product_image); // to reach to public folder
+            if (file_exists($image)) {
+                unlink($image); //delete from folder
+            }
+            $image_name = upload_image('', $request->file('product_image'));
 
-            $product->update([
-                'product_image' => $image_name,
-            ]);
+            $product->update(['product_image' => $image_name] + $request->except(['_token', '_method', 'product_image']));
+        } else {
+            // Update the product excluding the product_image field
+            $product->update($request->except(['_token', '_method', 'product_image']));
         }
+        DB::commit();
         return redirect()->route('admin.show', ['admin' => $product->category_id]);
     }
 
@@ -107,7 +93,18 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
-        $product->delete();
+        if($product)
+            DB::beginTransaction();
+            $product->delete();
+            $image = Str::after($product->product_image, 'uploads/');
+            $image = public_path('uploads'.DIRECTORY_SEPARATOR .$image); // to reach to public folder
+
+            if (file_exists($image)) {
+                unlink($image); //delete from folder
+            }
+
+            DB::commit();
+
         return redirect()->route('admin.show', ['admin' => $product->category_id]);
     }
 }

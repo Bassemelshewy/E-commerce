@@ -6,8 +6,8 @@
 
         <div class="search-form">
             <form action="{{ route('category.index') }}" method="GET">
-                <input class="input-style" type="text" name="category_name" placeholder="Search by name"
-                    value="{{ request('category_name') }}">
+                <input type="text" name="category_name" placeholder="Search by name"
+                    value="{{ request('category_name') }}" class="input-style">
                 <button class="button-style">Search</button>
             </form>
         </div>

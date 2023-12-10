@@ -17,7 +17,7 @@
 
         <div class="form-row">
             <label for="product_name">Product Name</label>
-            <input type="text" name="product_name" placeholder="Enter Product Name">
+            <input type="text" name="product_name" placeholder="Enter Product Name" value="{{old('product_name')}}">
         </div>
         @error('product_name')
             <div class="error-message">{{ $message }}</div>
@@ -25,7 +25,7 @@
 
         <div class="form-row">
             <label for="product_price">Product Price</label>
-            <input type="number" min="0" name="product_price" placeholder="Enter Product Price">
+            <input type="number" min="0" name="product_price" placeholder="Enter Product Price" value="{{old('product_price')}}">
         </div>
         @error('product_price')
             <div class="error-message">{{ $message }}</div>
@@ -33,7 +33,7 @@
 
         <div class="form-row">
             <label for="product_availability">Product Availability</label>
-            <select name="product_availability">
+            <select name="product_availability" value="{{old('product_availability')}}">
                 <option value="Available">Available</option>
                 <option value="Unavailable">Unavailable</option>
             </select>

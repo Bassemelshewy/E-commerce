@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -65,12 +66,8 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $validated=$request->validate([
-            'category_name'=>'required',
-        ]);
-
         Category::create($request->all());
         return redirect()->route('admin.index');
     }
@@ -90,22 +87,22 @@ class CategoryController extends Controller
      * Show the form for editing the specified resource.
      */
 
-    public function update($id, Request $request)
+    public function update($id, CategoryRequest $request)
     {
-        $request->validate([
-            'category_name' => 'required|max:100',
-        ]);
+        try {
+            $category = Category::find($id);
+            if (!$category) {
+                abort(404); // Category not found
+            }
 
-        $category = Category::find($id);
-        if (!$category) {
-            abort(404); // Category not found
+            // dd($request->all(), $category);
+
+            $category->update($request->all());
+
+            return redirect()->route('admin.show', ['admin' => $id]);
+        } catch (\Exception $e) {
+            return redirect()->route('admin.index');
         }
-
-        // dd($request->all(), $category);
-
-        $category->update($request->all());
-
-        return redirect()->route('admin.show', ['admin' => $id]);
     }
 
 

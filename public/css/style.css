@@ -48,7 +48,9 @@ button[type="submit"] {
     align-items: center;
     margin-bottom: 20px;
 }
-
+/* .form-row img{
+    
+} */
 label {
     white-space: nowrap;
     margin-right: 30px;

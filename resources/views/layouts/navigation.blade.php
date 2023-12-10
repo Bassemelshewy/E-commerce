@@ -1,3 +1,6 @@
+@php
+    $count = count(session('order', []));
+@endphp
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,6 +20,14 @@
                     </x-nav-link>
                 </div>
             </div>
+            <div class="shrink-0 flex items-center ml-auto">
+                @if (Auth::user()->user_type == 'user')
+                    <a href="{{ route('order.showOrderSummary') }}">
+                        <p> Cart({{ $count }})</p>
+                    </a>
+                @endif
+            </div>
+
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">

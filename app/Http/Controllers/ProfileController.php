@@ -8,9 +8,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
+    function index(Request $request){
+        $search = $request->input('user_name');
+        if($search){
+            $users = User::where('name', 'like', $search . '%')->paginate(25);
+        }else{
+            $users = User::paginate(25);
+        }
+
+        return view('admin.user', compact('users'));
+    }
     /**
      * Display the user's profile form.
      */
@@ -57,4 +68,12 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    function destroyUser($id){
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->route('admin.users');
+    }
+
+
 }
